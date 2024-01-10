@@ -214,10 +214,12 @@ public class MongodbService {
                 .count().as("count");
         GroupOperation groupStage7 = Aggregation.group("alert_video_status")
                 .count().as("count");
+        GroupOperation groupStage8 = Aggregation.group("fault_code")
+                .count().as("count");
 
 
         //for top drivers
-        GroupOperation groupStage8 = Aggregation.group("alert_type", "driver_id")
+        GroupOperation groupStage9 = Aggregation.group("alert_type", "driver_id")
                 .count().as("count");
 
         SortOperation sortStage = Aggregation.sort(Sort.Direction.DESC, "count");
@@ -272,7 +274,9 @@ public class MongodbService {
                 .as("alert_severity_count")
                 .and(groupStage7)
                 .as("alert_video_status_count")
-                .and(groupStage8, sortStage, customOperation1)
+                .and(groupStage8)
+                .as("fault_code_count")
+                .and(groupStage9, sortStage, customOperation1)
                 .as("topDrivers")
                 .and(customOperation2)
                 .as("Docs");
